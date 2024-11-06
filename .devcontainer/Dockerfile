@@ -8,11 +8,13 @@ WORKDIR /root
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install bash wget \
     && apt-get -y install --no-install-recommends openssh-client build-essential cmake cppcheck valgrind clang lldb llvm gdb git meson sudo \
-    build-essential python3 mono-complete tar gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib g++ \
-    libusb-1.0-0-dev binutils-multiarch gdb-multiarch \
+    build-essential python3 python3-pip python3-pycryptodome mono-complete tar \
+    gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib g++ \
+    libusb-1.0-0-dev binutils-multiarch gdb-multiarch  \
     && sudo ln -s /usr/bin/objdump /usr/bin/objdump-multiarch \
     && sudo ln -s /usr/bin/nm /usr/bin/nm-multiarch \
-    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+    && pip3 install pycryptodomex
 
 # Create developer user
 ARG USER_NAME=developer
@@ -26,12 +28,6 @@ RUN useradd -m ${USER_NAME} -d ${USER_WORKDIR_PATH} \
 
 USER ${USER_NAME}
 WORKDIR ${USER_WORKDIR_PATH}
-
-# # Install Dev environment
-# RUN sudo apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && sudo apt-get -y install --no-install-recommends build-essential python3 mono-complete tar\
-#     gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib g++ \
-#     && sudo apt-get autoremove -y && sudo apt-get clean -y && sudo rm -rf /var/lib/apt/lists/*
 
 # Setup ssh config for GitHub
 COPY --chown=${USER_NAME}:sudo --chmod=600 ./SshKeys/DevContainer ${USER_WORKDIR_PATH}/.ssh/DevContainer
