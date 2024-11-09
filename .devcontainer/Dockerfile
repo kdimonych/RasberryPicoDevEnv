@@ -7,8 +7,8 @@ WORKDIR /root
 # Install needed packages. Use a separate RUN statement to add your own dependencies.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install bash wget \
-    && apt-get -y install --no-install-recommends openssh-client build-essential cmake cppcheck valgrind clang lldb llvm gdb git meson sudo \
-    build-essential python3 python3-pip python3-pycryptodome mono-complete tar \
+    && apt-get -y install --no-install-recommends openssh-client build-essential cmake cppcheck valgrind clang \
+    clang-format lldb llvm gdb git meson sudo build-essential python3 python3-pip python3-pycryptodome mono-complete tar \
     gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib g++ \
     libusb-1.0-0-dev binutils-multiarch gdb-multiarch  \
     && sudo ln -s /usr/bin/objdump /usr/bin/objdump-multiarch \
