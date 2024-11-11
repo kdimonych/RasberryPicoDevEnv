@@ -8,13 +8,18 @@ WORKDIR /root
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install bash wget \
     && apt-get -y install --no-install-recommends openssh-client build-essential cmake cppcheck valgrind clang \
-    clang-format lldb llvm gdb git meson sudo build-essential python3 python3-pip python3-pycryptodome mono-complete tar \
+    clang-format lldb llvm gdb git meson sudo build-essential mono-complete tar \
     gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib g++ \
     libusb-1.0-0-dev binutils-multiarch gdb-multiarch  \
     && sudo ln -s /usr/bin/objdump /usr/bin/objdump-multiarch \
     && sudo ln -s /usr/bin/nm /usr/bin/nm-multiarch \
-    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
-    && pip3 install pycryptodomex
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
+
+# Install needed python packages.
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install bash wget \
+    && apt-get -y install --no-install-recommends python3 python3-pip python3-pycryptodome \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
 
 # Create developer user
 ARG USER_NAME=developer
